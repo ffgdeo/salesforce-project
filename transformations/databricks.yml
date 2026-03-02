@@ -27,6 +27,7 @@ targets:
     mode: production
     workspace:
       host: https://fevm-salesforce-cicd-stg.cloud.databricks.com
+      root_path: /Workspace/salesforce/${bundle.name}
     variables:
       bronze_schema: bronze
       silver_schema: silver
@@ -36,6 +37,7 @@ targets:
     mode: production
     workspace:
       host: https://fevm-salesforce-cicd-prod.cloud.databricks.com
+      root_path: /Workspace/salesforce/${bundle.name}
     variables:
       bronze_schema: bronze
       silver_schema: silver
