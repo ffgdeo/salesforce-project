@@ -1,0 +1,22 @@
+bundle:
+  name: salesforce-transformations
+
+include:
+  - resources/**/*.yml
+
+targets:
+  dev:
+    mode: development
+    default: true
+    workspace:
+      host: https://fevm-salesforce-cicd-dev.cloud.databricks.com
+
+  stg:
+    mode: development
+    workspace:
+      host: https://fevm-salesforce-cicd-stg.cloud.databricks.com
+
+  prod:
+    mode: production
+    workspace:
+      host: https://fevm-salesforce-cicd-prod.cloud.databricks.com

@@ -1,0 +1,14 @@
+resources:
+  pipelines:
+    transformation1:
+      name: transformation1_${bundle.target}
+      serverless: true
+      channel: CURRENT
+      catalog: main
+      target: silver_gold
+
+      libraries:
+        - file:
+            path: ./src/transformation1/silver.py
+        - file:
+            path: ./src/transformation1/gold.py

@@ -1,0 +1,20 @@
+resources:
+  jobs:
+    schedule_pipelines_job:
+      name: schedule_pipelines_job_${bundle.target}
+
+      schedule:
+        quartz_cron_expression: "0 30 6 * * ?"
+        timezone_id: UTC
+        pause_status: ${bundle.target == "prod" ? "UNPAUSED" : "PAUSED"}
+
+      tasks:
+        - task_key: run_transformation1
+          pipeline_task:
+            pipeline_id: ${resources.pipelines.transformation1.id}
+
+        - task_key: run_transformation2
+          pipeline_task:
+            pipeline_id: ${resources.pipelines.transformation2.id}
+          depends_on:
+            - task_key: run_transformation1

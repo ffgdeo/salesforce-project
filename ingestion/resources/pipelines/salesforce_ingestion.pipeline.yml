@@ -1,0 +1,12 @@
+resources:
+  pipelines:
+    salesforce_ingestion:
+      name: salesforce_ingestion_${bundle.target}
+      serverless: true
+      channel: CURRENT
+      catalog: main
+      target: bronze
+
+      libraries:
+        - notebook:
+            path: ./notebooks/ingest_salesforce
