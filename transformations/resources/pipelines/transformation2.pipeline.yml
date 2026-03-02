@@ -4,11 +4,16 @@ resources:
       name: transformation2_${bundle.target}
       serverless: true
       channel: CURRENT
-      catalog: main
-      target: silver_gold
+      catalog: salesforce_cicd_${bundle.target}_catalog
+      schema: event_logs
 
+      configuration:
+        catalog: salesforce_cicd_${bundle.target}_catalog
+        bronze_schema: ${var.bronze_schema}
+        silver_schema: ${var.silver_schema}
+        gold_schema: ${var.gold_schema}
+
+      root_path: "./../../src/transformation2"
       libraries:
-        - file:
-            path: ./src/transformation2/silver.py
-        - file:
-            path: ./src/transformation2/gold.py
+        - glob:
+            include: ./../../src/transformation2/**

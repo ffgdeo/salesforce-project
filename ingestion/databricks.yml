@@ -4,19 +4,46 @@ bundle:
 include:
   - resources/**/*.yml
 
+variables:
+  bronze_schema:
+    description: Target bronze schema name
+  environment:
+    description: target environment
+
 targets:
   dev:
     mode: development
     default: true
     workspace:
       host: https://fevm-salesforce-cicd-dev.cloud.databricks.com
+    variables:
+      bronze_schema: bronze_${workspace.current_user.short_name}
+      environment: dev
+
+  dev-shared:
+    mode: production
+    workspace:
+      host: https://fevm-salesforce-cicd-dev.cloud.databricks.com
+      root_path: /Workspace/salesforce/${bundle.name}
+#    run_as:
+    variables:
+      bronze_schema: bronze
+      environment: dev
 
   stg:
-    mode: development
+    mode: production
     workspace:
       host: https://fevm-salesforce-cicd-stg.cloud.databricks.com
+      root_path: /Workspace/salesforce/${bundle.name}
+    variables:
+      bronze_schema: bronze
+      environment: stg
 
   prod:
     mode: production
     workspace:
       host: https://fevm-salesforce-cicd-prod.cloud.databricks.com
+      root_path: /Workspace/salesforce/${bundle.name}
+    variables:
+      bronze_schema: bronze
+      environment: prod

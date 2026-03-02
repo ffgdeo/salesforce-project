@@ -1,12 +1,35 @@
 resources:
   pipelines:
-    salesforce_ingestion:
-      name: salesforce_ingestion_${bundle.target}
-      serverless: true
+    pipeline_salesforce_ingestion_pipeline:
+      name: salesforce-ingestion-pipeline-${var.environment}
+      ingestion_definition:
+        connection_name: salesforce-connection-${var.environment}
+        objects:
+          - table:
+              source_schema: objects
+              source_table: Account
+              destination_catalog: salesforce_cicd_${var.environment}_catalog
+              destination_schema: ${var.bronze_schema}
+          - table:
+              source_schema: objects
+              source_table: AccountContactRole
+              destination_catalog: salesforce_cicd_${var.environment}_catalog
+              destination_schema: ${var.bronze_schema}
+          - table:
+              source_schema: objects
+              source_table: AccountHistory
+              destination_catalog: salesforce_cicd_${var.environment}_catalog
+              destination_schema: ${var.bronze_schema}
+          - table:
+              source_schema: objects
+              source_table: AccountPartner
+              destination_catalog: salesforce_cicd_${var.environment}_catalog
+              destination_schema: ${var.bronze_schema}
+          - table:
+              source_schema: objects
+              source_table: AccountShare
+              destination_catalog: salesforce_cicd_${var.environment}_catalog
+              destination_schema: ${var.bronze_schema}
+      schema: event_log
       channel: CURRENT
-      catalog: main
-      target: bronze
-
-      libraries:
-        - notebook:
-            path: ./notebooks/ingest_salesforce
+      catalog: salesforce_cicd_${var.environment}_catalog
