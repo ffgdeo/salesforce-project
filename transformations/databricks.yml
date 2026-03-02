@@ -24,7 +24,7 @@ targets:
       gold_schema: gold_${workspace.current_user.short_name}
       
   stg:
-    mode: development
+    mode: production
     workspace:
       host: https://fevm-salesforce-cicd-stg.cloud.databricks.com
     variables:
