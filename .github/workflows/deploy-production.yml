@@ -1,0 +1,42 @@
+name: Deploy to Production
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy-ingestion:
+    name: Deploy ingestion bundle → prod
+    runs-on: ubuntu-latest
+    environment: production
+    defaults:
+      run:
+        working-directory: ingestion
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: databricks/setup-cli@main
+
+      - name: Deploy ingestion bundle
+        run: databricks bundle deploy --target prod
+        env:
+          DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
+
+  deploy-transformations:
+    name: Deploy transformations bundle → prod
+    runs-on: ubuntu-latest
+    environment: production
+    needs: deploy-ingestion
+    defaults:
+      run:
+        working-directory: transformations
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: databricks/setup-cli@main
+
+      - name: Deploy transformations bundle
+        run: databricks bundle deploy --target prod
+        env:
+          DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
