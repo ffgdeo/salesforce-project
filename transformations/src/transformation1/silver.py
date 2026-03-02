@@ -10,15 +10,16 @@ import dlt
 from pyspark.sql import functions as F
 from utils import get_bronze_table
 
+catalog = spark.conf.get("catalog")
+bronze_schema = spark.conf.get("bronze_schema")
+silver_schema = spark.conf.get("silver_schema")
 
 @dlt.table(
-    name="transformation1_silver",
+    name=f"{catalog}.{silver_schema}.transformation1_silver",
     comment="Cleaned and standardised Salesforce records — silver layer",
 )
 def transformation1_silver():
-    df = dlt.read("salesforce_ingestion_bronze")
+    df = spark.readStream.table(f"{catalog}.{bronze_schema}.account")
     return (
-        df.filter(F.col("_deleted").isNull() | (F.col("_deleted") == False))
-        .withColumn("ingested_at", F.col("_ingested_at").cast("timestamp"))
-        .drop("_deleted", "_ingested_at")
+        df.withColumn("ingested_at", F.current_timestamp())
     )

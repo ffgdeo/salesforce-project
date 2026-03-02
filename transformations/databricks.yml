@@ -4,19 +4,39 @@ bundle:
 include:
   - resources/**/*.yml
 
+variables:
+  bronze_schema:
+    description: bronze schema name
+  silver_schema:
+    description: silver schema name
+  gold_schema:
+    description: gold schema name
+
 targets:
   dev:
     mode: development
     default: true
     workspace:
       host: https://fevm-salesforce-cicd-dev.cloud.databricks.com
-
+    variables:
+      bronze_schema: bronze
+      silver_schema: silver_${workspace.current_user.short_name}
+      gold_schema: gold_${workspace.current_user.short_name}
+      
   stg:
     mode: development
     workspace:
       host: https://fevm-salesforce-cicd-stg.cloud.databricks.com
+    variables:
+      bronze_schema: bronze
+      silver_schema: silver
+      gold_schema: gold
 
   prod:
     mode: production
     workspace:
       host: https://fevm-salesforce-cicd-prod.cloud.databricks.com
+    variables:
+      bronze_schema: bronze
+      silver_schema: silver
+      gold_schema: gold

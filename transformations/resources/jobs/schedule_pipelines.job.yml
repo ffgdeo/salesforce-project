@@ -6,7 +6,6 @@ resources:
       schedule:
         quartz_cron_expression: "0 30 6 * * ?"
         timezone_id: UTC
-        pause_status: ${bundle.target == "prod" ? "UNPAUSED" : "PAUSED"}
 
       tasks:
         - task_key: run_transformation1

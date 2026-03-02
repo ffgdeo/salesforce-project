@@ -1,14 +1,13 @@
 resources:
   jobs:
     salesforce_ingestion_job:
-      name: salesforce_ingestion_job_${bundle.target}
+      name: salesforce_ingestion_job_${var.environment}
 
       schedule:
         quartz_cron_expression: "0 0 6 * * ?"
         timezone_id: UTC
-        pause_status: ${bundle.target == "prod" ? "UNPAUSED" : "PAUSED"}
 
       tasks:
         - task_key: run_ingestion_pipeline
           pipeline_task:
-            pipeline_id: ${resources.pipelines.salesforce_ingestion.id}
+            pipeline_id: ${resources.pipelines.pipeline_salesforce_ingestion_pipeline.id}
