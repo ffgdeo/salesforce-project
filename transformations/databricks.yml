@@ -22,7 +22,16 @@ targets:
       bronze_schema: bronze
       silver_schema: silver_${workspace.current_user.short_name}
       gold_schema: gold_${workspace.current_user.short_name}
-      
+
+  dev-shared:
+    mode: production
+    workspace:
+      host: https://fevm-salesforce-cicd-dev.cloud.databricks.com
+    variables:
+      bronze_schema: bronze
+      silver_schema: silver
+      gold_schema: gold
+
   stg:
     mode: production
     workspace:
